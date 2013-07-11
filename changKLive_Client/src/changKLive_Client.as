@@ -7,9 +7,9 @@ package
 	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
 	import flash.media.Camera;
-	import flash.media.H264Level;
-	import flash.media.H264Profile;
-	import flash.media.H264VideoStreamSettings;
+	//import flash.media.H264Level;
+	//import flash.media.H264Profile;
+	//import flash.media.H264VideoStreamSettings;
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
@@ -30,26 +30,29 @@ package
 		{
 			video.width = 450 ;
 			video.height = 337 ;		
-  AsWingManager.initAsStandard(this);
+			AsWingManager.initAsStandard(this);
 			addChild(video);
 			serverName.width = 460 ;
+			serverName.height = 30 ;
 			serverName.y = 360 ;
 			addChild(serverName);
 			startPublish.y = 390 ;
 			startPublish.label = "Play";
 			addChild(startPublish);
-			startPublish.addChild(MouseEvent.MOUSE_UP, onMouseUp);
+			startPublish.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 		
 		
 		private function onMouseUp(e:MouseEvent):void
-		{
-			if (serverPath.indexOf("rtmp") <= 0 || serverPath.length <= 0)
+		{				
+			serverPath = serverName.text ; 
+			if (serverPath.indexOf("rtmp") < 0 || serverPath.length <= 0)
 			{
 				JOptionPane.showMessageDialog("消息", "地址不对");
 			}else {
+
 				 streamUrl = serverPath.slice(0, serverPath.indexOf("?"));
-				 streamName = serverPath.substring( serverPath.indexOf("?"));
+				 streamName = serverPath.substring( serverPath.indexOf("=")+1);
 				receiveStream(streamUrl)
 			}
 			

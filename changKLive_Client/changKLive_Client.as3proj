@@ -51,8 +51,8 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\minimalcomps.swc" />
     <element path="lib\AsWing.swc" />
+    <element path="lib\minimalcomps.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

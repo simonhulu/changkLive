@@ -124,7 +124,7 @@ AsWingManager.setRoot(this);
 					ns.attachAudio(microphone);
 					var token:String =Math.round(Math.random()*100000)+Math.round(Math.random()*1000000)+'' ;
 						
-					serverName.text = publishaddress + "/?token=" + token;
+					serverName.text = publishaddress + "?token=" + token;
 					ns.publish(token,'live');
 					ns.client = this;
 					break;
