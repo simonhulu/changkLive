@@ -24,6 +24,8 @@ package
 		private var startPublish:PushButton = new PushButton();
 		private var serverName:InputText = new InputText();	
 		private var serverPath:String;
+		private var streamName:String = '' ;
+		private var streamUrl:String = '' ;
 		public function changKLive_Client()
 		{
 			video.width = 450 ;
@@ -46,8 +48,9 @@ package
 			{
 				JOptionPane.showMessageDialog("消息", "地址不对");
 			}else {
-				var url:String = serverPath.slice(0, serverPath.indexOf("?"));
-				receiveStream(url)
+				 streamUrl = serverPath.slice(0, serverPath.indexOf("?"));
+				 streamName = serverPath.substring( serverPath.indexOf("?"));
+				receiveStream(streamUrl)
 			}
 			
 
@@ -68,7 +71,7 @@ package
 					ns = new NetStream(nc);
 					ns.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);					
 					video.attachNetStream(ns);
-					ns.play('myStream');
+					ns.play(streamName);
 					ns.client = new MetaData;
 					break;
 				case "NetStream.Play.Start":

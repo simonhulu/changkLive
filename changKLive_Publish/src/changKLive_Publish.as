@@ -64,8 +64,6 @@ AsWingManager.setRoot(this);
 			serverName.height = 30 ;
 			serverName.x = serveraddress.width + 101 ;
 			serverName.y = 395 ;
-			
-
 			startPublish.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
 		}
 	
