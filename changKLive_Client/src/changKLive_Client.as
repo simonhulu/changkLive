@@ -1,7 +1,10 @@
 package
 {
 	
+	import com.bit101.components.InputText;
+	import com.bit101.components.PushButton;
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
 	import flash.media.Camera;
 	import flash.media.H264Level;
@@ -10,24 +13,55 @@ package
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
+	import org.aswing.AsWingManager;
+	import org.aswing.JOptionPane;
 
 	public class changKLive_Client extends Sprite
 	{
 		var ns:NetStream;
 		var nc:NetConnection = new NetConnection();
 		var video:Video = new Video();		
+		private var startPublish:PushButton = new PushButton();
+		private var serverName:InputText = new InputText();	
+		private var serverPath:String;
 		public function changKLive_Client()
 		{
-			
-			nc.connect("rtmp://192.168.9.42/firstmodules");
-			nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
-			addChild(video);		
+			video.width = 450 ;
+			video.height = 337 ;		
+  AsWingManager.initAsStandard(this);
+			addChild(video);
+			serverName.width = 460 ;
+			serverName.y = 360 ;
+			addChild(serverName);
+			startPublish.y = 390 ;
+			startPublish.label = "Play";
+			addChild(startPublish);
+			startPublish.addChild(MouseEvent.MOUSE_UP, onMouseUp);
 		}
+		
+		
+		private function onMouseUp(e:MouseEvent):void
+		{
+			if (serverPath.indexOf("rtmp") <= 0 || serverPath.length <= 0)
+			{
+				JOptionPane.showMessageDialog("消息", "地址不对");
+			}else {
+				var url:String = serverPath.slice(0, serverPath.indexOf("?"));
+				receiveStream(url)
+			}
+			
+
+		}
+		
+		private function receiveStream(url):void
+		{
+			nc.connect(url);
+			nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus)			
+		}
+		
 
 		private function onNetStatus(e:NetStatusEvent):void
-			
 		{
-			trace(e.info.code);
 			switch(e.info.code)
 			{
 				case "NetConnection.Connect.Success":
