@@ -3,6 +3,7 @@ package
 	
 	import com.bit101.components.InputText;
 	import com.bit101.components.PushButton;
+	import com.bit101.components.TextArea;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
@@ -26,6 +27,7 @@ package
 		private var serverPath:String;
 		private var streamName:String = '' ;
 		private var streamUrl:String = '' ;
+		var text:TextArea = new TextArea();
 		public function changKLive_Client()
 		{
 			video.width = 450 ;
@@ -40,6 +42,9 @@ package
 			startPublish.label = "Play";
 			addChild(startPublish);
 			startPublish.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			text.y = 490 ;
+			text.width = 460 ;
+			addChild(text);
 		}
 		
 		
@@ -68,6 +73,7 @@ package
 
 		private function onNetStatus(e:NetStatusEvent):void
 		{
+			text.text = text.text + e.info.code+"\n";
 			switch(e.info.code)
 			{
 				case "NetConnection.Connect.Success":
