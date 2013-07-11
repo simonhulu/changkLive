@@ -122,8 +122,9 @@ AsWingManager.setRoot(this);
 					//ns.videoStreamSettings = h ;
 					ns.attachCamera(carme);
 					ns.attachAudio(microphone);
-					var token:String = Math.random() * 10000 + Math.random() * 10000+'';
-					serverName.text = publishaddress + "/?token" + token;
+					var token:String =Math.round(Math.random()*100000)+Math.round(Math.random()*1000000)+'' ;
+						
+					serverName.text = publishaddress + "/?token=" + token;
 					ns.publish(token,'live');
 					ns.client = this;
 					break;
