@@ -4,16 +4,17 @@ package
 	import com.bit101.components.InputText;
 	import com.bit101.components.PushButton;
 	import com.bit101.components.TextArea;
+	
 	import flash.display.Sprite;
+	import flash.events.AsyncErrorEvent;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
 	import flash.media.Camera;
-	//import flash.media.H264Level;
-	//import flash.media.H264Profile;
-	//import flash.media.H264VideoStreamSettings;
 	import flash.media.Video;
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
+	
 	import org.aswing.AsWingManager;
 	import org.aswing.JOptionPane;
 
@@ -30,6 +31,7 @@ package
 		var text:TextArea = new TextArea();
 		public function changKLive_Client()
 		{
+			nc.client = new MetaData();
 			video.width = 450 ;
 			video.height = 337 ;		
 			AsWingManager.initAsStandard(this);
@@ -42,11 +44,17 @@ package
 			startPublish.label = "Play";
 			addChild(startPublish);
 			startPublish.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			nc.addEventListener(AsyncErrorEvent.ASYNC_ERROR,onAsyncError);
 			text.y = 490 ;
 			text.width = 460 ;
 			addChild(text);
 		}
 		
+		
+		private function onAsyncError(e:Event):void
+		{
+			
+		}
 		
 		private function onMouseUp(e:MouseEvent):void
 		{				
@@ -81,7 +89,7 @@ package
 					ns.addEventListener(NetStatusEvent.NET_STATUS,onNetStatus);					
 					video.attachNetStream(ns);
 					ns.play(streamName);
-					ns.client = new MetaData;
+					ns.client = new MetaData();
 					break;
 				case "NetStream.Play.Start":
 					

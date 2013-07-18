@@ -4,24 +4,26 @@ package
 	import com.bit101.components.Label;
 	import com.bit101.components.PushButton;
 	import com.bit101.components.Style;
+	
 	import flash.display.Sprite;
+	import flash.events.AsyncErrorEvent;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.NetStatusEvent;
 	import flash.media.Camera;
+	import flash.media.Microphone;
+	import flash.media.Video;
+	import flash.net.NetConnection;
+	import flash.net.NetStream;
+	
 	import org.aswing.AsWingManager;
 	import org.aswing.Component;
-	import org.aswing.event.AWEvent;
 	import org.aswing.FlowLayout;
 	import org.aswing.JButton;
 	import org.aswing.JFrame;
 	import org.aswing.JOptionPane;
-	//import flash.media.H264Level;
-	//import flash.media.H264Profile;
-	//import flash.media.H264VideoStreamSettings;
-	import flash.media.Microphone;
-	import flash.media.Video;
-	import flash.net.NetConnection;
-	import flash.net.NetStream;		
+	import org.aswing.event.AWEvent;
+
 	public class changKLive_Publish extends Sprite
 	{
 
@@ -31,7 +33,7 @@ package
 		private var startPublish:PushButton = new PushButton();
 		private var serverName:InputText = new InputText();
 		private var serveraddress:Label = new Label();
-		private var publishaddress:String = "rtmp://42.121.121.16/videochat";	
+		private var publishaddress:String = "rtmp://upvideo.maiba111.com/changk/sy";	
 
   private var myFrame:JFrame;
     private var myButton:JButton;
@@ -40,7 +42,7 @@ package
 		{
 			
   AsWingManager.initAsStandard(this);
-			
+			nc.client = new MetaData();
 		
     AsWingManager.initAsStandard(this);
 AsWingManager.setRoot(this);
@@ -87,13 +89,21 @@ AsWingManager.setRoot(this);
 		private function startPublishStream():void
 		{
 			nc.connect(publishaddress);
-			nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);			
+			nc.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);	
+			nc.addEventListener(AsyncErrorEvent.ASYNC_ERROR,onAsyncError);
 		}
 		
+		private function onAsyncError(e:Event):void
+		{
+			
+		}
 		
 		private function stopPublish():void
 		{
-			
+			ns.attachCamera(null);
+			ns.attachAudio(null);
+			ns.publish(null);	
+			ns.close();
 		}
 		
 		private function onNetStatus(e:NetStatusEvent):void
@@ -126,7 +136,7 @@ AsWingManager.setRoot(this);
 						
 					serverName.text = publishaddress + "?token=" + token;
 					ns.publish(token,'live');
-					ns.client = this;
+					ns.client = new MetaData();
 					break;
 				case "NetStream.Play.Start":
 					
